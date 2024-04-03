@@ -13,13 +13,15 @@ int sharkSize = 2;
 int ate = 0;
 int t = 0;
 
-int main() {
+void init() {
     cin.tie(0);
     ios::sync_with_stdio(0);
 
     fill(&dist[0][0], &dist[21][22], -1);
     fill(&prey[0][0], &prey[21][22], 999999999);
+}
 
+void readBoard() {
     cin >> n;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -32,9 +34,10 @@ int main() {
             }
         }
     }
+}
 
-    while(1) {
-        bool noPrey = true;
+bool floodfill() {
+    bool hasPrey = false;
         while(!q.empty()) {
             auto p = q.front();
             q.pop();
@@ -54,42 +57,63 @@ int main() {
 
                 if (board[nx][ny] > 0 && board[nx][ny] < sharkSize) {
                     prey[nx][ny] = dist[nx][ny];
-                    noPrey = false;
+                    hasPrey = true;
                 }
                 q.push( { nx, ny } );
             }
         }
+    return hasPrey;
+}
 
-        if (noPrey) break;
+pair<int, int> getNextPrey(int mn) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (prey[i][j] == mn) {
+                return { i , j };
+            }
+        }
+    }
+    return { n, n } ;
+}
+
+void eat() {
+    ate++;
+    if (ate == sharkSize) {
+        ate = 0;
+        sharkSize++;
+    }
+}
+
+void move(pair<int, int> next) {
+    board[shark.first][shark.second] = 0;
+    board[next.first][next.second] = 9;
+    shark = next;
+}
+
+void initForNext(pair<int, int> next) {
+    q.push(next);
+    fill(&dist[0][0], &dist[n - 1][n], -1);
+    fill(&prey[0][0], &prey[n - 1][n], 999999999);
+    dist[next.first][next.second] = 0;
+}
+
+int main() {
+    init();
+    readBoard();
+
+    while(1) {
+        bool hasPrey = floodfill();
+        if (!hasPrey) break;
 
         int mn = *min_element(&prey[0][0], &prey[n][n]);
-
-        pair<int, int> next;
-        for (int i = 0; i < n; i++) {
-            bool flag = false;
-            for (int j = 0; j < n; j++) {
-                if (prey[i][j] == mn) {
-                    next = { i , j };
-                    flag = true;
-                    break;
-                }
-            }
-            if (flag) break;
-        }
-
         t += mn;
-        ate++;
-        if (ate == sharkSize) {
-            ate = 0;
-            sharkSize++;
-        }
-        board[shark.first][shark.second] = 0;
-        board[next.first][next.second] = 9;
-        shark = next;
-        q.push(next);
-        fill(&dist[0][0], &dist[n - 1][n], -1);
-        fill(&prey[0][0], &prey[n - 1][n], 999999999);
-        dist[next.first][next.second] = 0;
+
+        pair<int, int> next = getNextPrey(mn);
+
+        eat();
+        move(next);
+
+        initForNext(next);
     }
 
     cout << t;
