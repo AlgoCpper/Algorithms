@@ -10,6 +10,7 @@ int main(){
     cin.tie(NULL);
     cout.tie(NULL);
     
+    // 우선순위 큐, 오름차순 정렬
     priority_queue<int, vector<int>, greater<int>> pq;
     int n, input;
     cin >> n;
@@ -27,7 +28,6 @@ int main(){
         pq.pop();
         pq.push(a+b);
         cnt+=(a+b);
-        cout << (a+b);
     }
     cout << cnt;
     
