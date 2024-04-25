@@ -33,6 +33,7 @@
 7. 간단한 설명을 .md 파일로 작성해 `push`한다.
 8. 이 저장소에 `Pull Request`를 보낸다.
 9. 다른 사람의 PR을 보고 리뷰한다.
+10. 문제를 풀기 전에, `sync fork`와 `pull`로 최신화한다.
 
 <br/>
 
@@ -45,23 +46,11 @@ BOJ 문제 번호 + .md
 
 <br/>
 
-모의 코딩 테스트 시에는 `문제 번호 + .cpp`와 `문제 번호 + .md`로 한다.
-```
-week1/exam/cherry-go-round/1.cpp
-week1/exam/cherry-go-round/1.md
-week1/exam/cherry-go-round/2.cpp
-week1/exam/cherry-go-round/2.md
-...
-```
-
-<br/>
-
 ### ⚠️ Commit 메시지 규칙
 다음과 같은 형식만 사용한다.
 * `feat: 1000.cpp`
 * `refactor: 1000.cpp`
 * `docs: 1000.md`
-* `docs: 1000.md 오타 수정`
 
 <br/>
   
@@ -73,18 +62,23 @@ week1/exam/cherry-go-round/2.md
 
 <br/>
 
-모의 코딩 테스트 시에는 힌트를 사용해서는 안 되고, 못 풀어도 괜찮다.
-
-```
-[날짜] 주차 / 이름 / {풀지 못한 문제 번호}
-```
-예시: `[240327] week1 / 홍석호 / 3, 5`
+### 📝 모의 코딩 테스트
+문제 번호가 명시되지 않을 시에는 url 등을 보고 문제 번호를 결정한다.   
+모호할 시에는 회의를 통해 결정한다. 
 
 <br/>
 
-리뷰 후 문제를 다시 풀고 PR을 보낸다.
+모의 코딩 테스트가 끝나고 주말까지 모든 문제를 푼다.   
+모든 문제의 소스코드와 review.md 파일을 한 번에 commit한다.   
+이 때 commit message는 `feat: week{#} exam`으로 한다. 
 
-```
-[날짜] 주차 / 이름 / {풀지 못한 문제 번호} / re
-```
-예시: `[240327] week1 / 홍석호 / 3, 5 / re`
+<br/>
+
+PR 제목은 `[날짜] {#}주차 모의 코딩 테스트 / 이름 / {정답 수} / {문제 수}`로 한다.
+
+<br/>
+
+예시:   
+* 파일 이름: `92335.cpp`, `92341.java`, `92344.cpp`, `92334.java`, `review.md`
+* commit message: `feat: week1 exam`
+* PR: `1주차 모의 코딩 테스트 / 홍석호 / 0 / 4`
